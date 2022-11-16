@@ -47,10 +47,11 @@ if __name__ == '__main__':
 
     # set up trainer
     trainer = Trainer(
-        accelerator='gpu',
+        accelerator='cpu',
         max_epochs=hparams.num_epochs,
         limit_train_batches=hparams.epoch_size,
-        limit_val_batches=200 if hparams.val_mode == 'photo' else 1.0,
+        #limit_val_batches=200 if hparams.val_mode == 'photo' else 1.0,
+        limit_val_batches=hparams.val_epoch_size,
         num_sanity_val_steps=5,
         callbacks=[checkpoint_callback],
         logger=logger,

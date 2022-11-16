@@ -86,6 +86,8 @@ class DepthEval():
         else:
             print('the datset is not support')
 
+        print('pred_depths count', len(pred_depths))
+        print('gt_depths count', len(gt_depths))
         assert (len(pred_depths) == len(gt_depths))
 
         """ Get segmentation masks """

@@ -30,7 +30,6 @@ def main():
     system = system.load_from_checkpoint(hparams.ckpt_path, strict=False)
 
     model = system.depth_net
-    model.cuda()
     model.eval()
 
     # training size
@@ -65,7 +64,7 @@ def main():
         filename = os.path.splitext(os.path.basename(img_file))[0]
 
         img = imread(img_file).astype(np.float32)
-        tensor_img = inference_transform([img])[0][0].unsqueeze(0).cuda()
+        tensor_img = inference_transform([img])[0][0].unsqueeze(0)
         pred_depth = model(tensor_img)
 
         if hparams.save_vis:

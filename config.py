@@ -63,6 +63,8 @@ def get_opts():
     # training options
     parser.add_argument('--exp_name', type=str, help='experiment name')
     parser.add_argument('--batch_size', type=int, default=4, help='batch size')
+    parser.add_argument('--val_epoch_size', type=int,
+                        default=1000, help='number of validation epochs')
     parser.add_argument('--epoch_size', type=int,
                         default=1000, help='number of training epochs')
     parser.add_argument('--num_epochs', type=int, default=100,
