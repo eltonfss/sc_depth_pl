@@ -7,6 +7,9 @@ from data_modules import VideosDataModule
 from SC_Depth import SC_Depth
 from SC_DepthV2 import SC_DepthV2
 from SC_DepthV3 import SC_DepthV3
+from SC_DepthV3_ER import SC_DepthV3_ER
+from er_buffer import ExperienceReplayBuffer
+from er_buffer_initializer import initialize_er_buffer
 
 if __name__ == '__main__':
     hparams = get_opts()
@@ -18,6 +21,13 @@ if __name__ == '__main__':
         system = SC_DepthV2(hparams)
     elif hparams.model_version == 'v3':
         system = SC_DepthV3(hparams)
+    elif hparams.model_version == 'v3_with_er':
+        er_buffer = ExperienceReplayBuffer(hparams.er_buffer_size)
+        replay_dataset_name = hparams.replay_dataset_name
+        replay_dataset_dir = hparams.replay_dataset_dir
+        assert replay_dataset_name and replay_dataset_dir and replay_dataset_name != hparams.dataset_name
+        initialize_er_buffer(hparams, [(replay_dataset_name, replay_dataset_dir)], er_buffer)
+        system = SC_DepthV3_ER(hparams, er_buffer)
 
     # pl data module
     dm = VideosDataModule(hparams)
@@ -46,6 +56,7 @@ if __name__ == '__main__':
             hparams.ckpt_path, strict=False, hparams=hparams)
 
     # set up trainer
+    print('hparams.num_epochs', hparams.num_epochs)
     trainer = Trainer(
         accelerator='gpu',
         max_epochs=hparams.num_epochs,

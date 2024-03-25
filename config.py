@@ -12,6 +12,9 @@ def get_opts():
     parser.add_argument('--dataset_dir', type=str)
     parser.add_argument('--dataset_name', type=str,
                         default='kitti', choices=['kitti', 'nyu', 'ddad', 'bonn', 'tum'])
+    parser.add_argument('--replay_dataset_dir', type=str, default=None)
+    parser.add_argument('--replay_dataset_name', type=str,
+                        default=None, choices=['kitti', 'nyu', 'ddad', 'bonn', 'tum'])
     parser.add_argument('--sequence_length', type=int,
                         default=3, help='number of images for training')
     parser.add_argument('--skip_frames', type=int, default=1,
@@ -21,7 +24,10 @@ def get_opts():
 
     # model
     parser.add_argument('--model_version', type=str,
-                        default='v1', choices=['v1', 'v2', 'v3'])
+                        default='v1', choices=['v1', 'v2', 'v3', 'v3_with_er'])
+    parser.add_argument('--er_buffer_size', type=int, default=-1)
+    parser.add_argument('--er_size', type=int, default=-1)
+    parser.add_argument('--er_frequency', type=int, default=-1)
     parser.add_argument('--resnet_layers', type=int, default=18)
     parser.add_argument('--ckpt_path', type=str, default=None,
                         help='pretrained checkpoint path to load')
